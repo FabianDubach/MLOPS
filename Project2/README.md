@@ -12,6 +12,16 @@ git clone https://github.com/FabianDubach/MLOPS.git
 cd MLOPS/Project2
 docker build -t train_glue_transformer .
 ```
+### Environment Variables
+
+Create a .env file in the same folder for your WandB API key and other environment variables:
+
+```bash
+WANDB_API_KEY=your_api_key_here
+```
+
+Important: Make sure .env is not committed to the repository. Otherwise people can just access your WandB.
+
 
 ## Running the Training Script
 
@@ -27,23 +37,27 @@ docker run --rm --gpus all --env-file .env train_glue_transformer
 
 ### Adjusting Hyperparameters
 
-You can override defaults by passing arguments:
+You can override all defaults by passing arguments:
+
 ```bash
-docker run --rm --env-file .env train_glue_transformer \
+docker run --rm --gpus all --env-file .env train_glue_transformer \
+    --model_name_or_path distilbert-base-uncased \
+    --task_name mrpc \
     --train_batch_size 8 \
     --eval_batch_size 8 \
     --max_seq_length 128 \
-    --learning_rate 2e-5
+    --learning_rate 2e-5 \
+    --weight_decay 0 \
+    --adam_epsilon 1e-8 \
+    --warmup_steps 50 \
+    --dropout_rate 0.1 \
+    --gradient_clip_val 1.0 \
+    --epochs 3 \
+    --seed 42 \
+    --accelerator auto \
+    --devices 1 \
+    --wandb_project HyperparameterTuning
 ```
-
-### Environment Variables
-
-Create a .env file in the same folder for your WandB API key and other environment variables:
-```bash
-WANDB_API_KEY=your_api_key_here
-```
-
-Important: Make sure .env is not committed to the repository. Otherwise people can just access your WandB.
 
 ### Notes
 

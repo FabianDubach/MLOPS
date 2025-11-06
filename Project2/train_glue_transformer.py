@@ -335,7 +335,7 @@ def parse_args():
     parser.add_argument("--checkpoint_dir", type=str, default="models")
     
     # Wandb arguments
-    parser.add_argument("--wandb_project", type=str, default="Containerization")
+    parser.add_argument("--wandb_project", type=str, default="HyperparameterTuning")
     parser.add_argument("--wandb_run_name", type=str, default=None)
     parser.add_argument("--log_model", action="store_true")
     

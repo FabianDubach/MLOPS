@@ -1,7 +1,0 @@
-transformers==4.45.2
-datasets==3.0.1
-lightning==2.4.0
-wandb==0.17.9
-accelerate==1.0.1
-scikit-learn==1.5.2
-python-dotenv==1.0.1

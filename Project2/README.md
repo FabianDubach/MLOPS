@@ -25,14 +25,10 @@ Important: Make sure .env is not committed to the repository. Otherwise people c
 
 ## Running the Training Script
 
-### Using CPU
+You can run the script with this command:
+
 ```bash
 docker run --rm --env-file .env train_glue_transformer
-```
-
-### Using GPU
-```bash
-docker run --rm --gpus all --env-file .env train_glue_transformer
 ```
 
 ### Adjusting Hyperparameters
@@ -40,7 +36,7 @@ docker run --rm --gpus all --env-file .env train_glue_transformer
 You can override all defaults by passing arguments:
 
 ```bash
-docker run --rm --gpus all --env-file .env train_glue_transformer \
+docker run --rm --env-file .env train_glue_transformer \
     --model_name_or_path distilbert-base-uncased \
     --task_name mrpc \
     --train_batch_size 8 \

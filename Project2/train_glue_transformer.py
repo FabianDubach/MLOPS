@@ -99,19 +99,39 @@ class GLUEDataModule(L.LightningDataModule):
         AutoTokenizer.from_pretrained(self.model_name_or_path, use_fast=True)
 
     def train_dataloader(self):
-        return DataLoader(self.dataset["train"], batch_size=self.train_batch_size, shuffle=True)
+        # num_workers=0 is critical for Docker/Codespaces to avoid multiprocessing memory issues
+        return DataLoader(
+            self.dataset["train"], 
+            batch_size=self.train_batch_size, 
+            shuffle=True,
+            num_workers=0
+        )
 
     def val_dataloader(self):
         if len(self.eval_splits) == 1:
-            return DataLoader(self.dataset["validation"], batch_size=self.eval_batch_size)
+            return DataLoader(
+                self.dataset["validation"], 
+                batch_size=self.eval_batch_size,
+                num_workers=0
+            )
         elif len(self.eval_splits) > 1:
-            return [DataLoader(self.dataset[x], batch_size=self.eval_batch_size) for x in self.eval_splits]
+            return [
+                DataLoader(self.dataset[x], batch_size=self.eval_batch_size, num_workers=0) 
+                for x in self.eval_splits
+            ]
 
     def test_dataloader(self):
         if len(self.eval_splits) == 1:
-            return DataLoader(self.dataset["test"], batch_size=self.eval_batch_size)
+            return DataLoader(
+                self.dataset["test"], 
+                batch_size=self.eval_batch_size,
+                num_workers=0
+            )
         elif len(self.eval_splits) > 1:
-            return [DataLoader(self.dataset[x], batch_size=self.eval_batch_size) for x in self.eval_splits]
+            return [
+                DataLoader(self.dataset[x], batch_size=self.eval_batch_size, num_workers=0) 
+                for x in self.eval_splits
+            ]
 
     def convert_to_features(self, example_batch, indices=None):
         # Either encode single sentence or sentence pairs
@@ -167,8 +187,8 @@ class GLUETransformer(L.LightningModule):
             "glue", self.hparams.task_name, experiment_id=datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
         )
 
+        # Only store validation outputs - don't accumulate training outputs to save memory
         self.validation_step_outputs = []
-        self.training_step_outputs = []
 
         # Track best validation accuracy
         self.best_val_accuracy = 0.0
@@ -179,41 +199,12 @@ class GLUETransformer(L.LightningModule):
     def training_step(self, batch, batch_idx):
         outputs = self(**batch)
         loss = outputs[0]
-        logits = outputs[1]
-
-        # Calculate predictions for accuracy
-        if self.hparams.num_labels > 1:
-            preds = torch.argmax(logits, axis=1)
-        elif self.hparams.num_labels == 1:
-            preds = logits.squeeze()
-
-        labels = batch["labels"]
-
-        # Store outputs for epoch-end calculation
-        self.training_step_outputs.append({"loss": loss, "preds": preds, "labels": labels})
-
-        # Log loss for each step
-        self.log("train_loss_step", loss, prog_bar=False, on_step=True, on_epoch=False)
-
+        
+        # Log loss for each step without storing outputs (memory optimization)
+        self.log("train_loss", loss, prog_bar=True, on_step=True, on_epoch=True)
+        
+        # Return loss directly without accumulating predictions to save memory
         return loss
-
-    def on_train_epoch_end(self):
-        # Calculate average training loss
-        avg_loss = torch.stack([x["loss"] for x in self.training_step_outputs]).mean()
-
-        # Calculate training accuracy
-        preds = torch.cat([x["preds"] for x in self.training_step_outputs]).detach().cpu().numpy()
-        labels = torch.cat([x["labels"] for x in self.training_step_outputs]).detach().cpu().numpy()
-
-        train_metrics = self.metric.compute(predictions=preds, references=labels)
-        train_accuracy = train_metrics.get('accuracy', train_metrics.get('f1', 0.0))
-
-        # Log training metrics
-        self.log("train_loss", avg_loss, prog_bar=True, on_epoch=True)
-        self.log("train_accuracy", train_accuracy, prog_bar=True, on_epoch=True)
-
-        # Clear outputs
-        self.training_step_outputs.clear()
 
     def validation_step(self, batch, batch_idx, dataloader_idx=0):
         outputs = self(**batch)
@@ -322,10 +313,11 @@ def parse_args():
     parser.add_argument("--dropout_rate", type=float, default=0.1)
     parser.add_argument("--gradient_clip_val", type=float, default=1.0)
     
-    # Data arguments
+    # Data arguments - CHANGED DEFAULT from 256 to 128 to reduce memory usage
     parser.add_argument("--train_batch_size", type=int, default=32)
     parser.add_argument("--eval_batch_size", type=int, default=32)
-    parser.add_argument("--max_seq_length", type=int, default=256)
+    parser.add_argument("--max_seq_length", type=int, default=128, 
+                        help="Maximum sequence length (default: 128, was 256)")
     
     # Training arguments
     parser.add_argument("--epochs", "--num_epochs", type=int, default=3, dest="num_epochs")

@@ -1,17 +1,19 @@
+# Project 2: Containerization
+
 ## Prerequisites
 
 - Docker installed ([Get Docker](https://docs.docker.com/get-docker/))
-- Optional: NVIDIA GPU drivers and Docker NVIDIA runtime for GPU support
 
-## Build the Docker Image
 
-Clone the repository and navigate to the project folder:
+## Clone Repository
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/FabianDubach/MLOPS.git
-cd MLOPS/Project2
-docker build -t train_glue_transformer .
 ```
+
+
 ### Environment Variables
 
 Create a .env file in the same folder for your WandB API key and other environment variables:
@@ -21,6 +23,16 @@ WANDB_API_KEY=your_api_key_here
 ```
 
 Important: Make sure .env is not committed to the repository. Otherwise people can just access your WandB.
+
+
+## Build Docker Image
+
+Navigate to the project folder and build the docker image:
+
+```bash
+cd MLOPS/Project2/docker_files
+docker build -t train_glue_transformer .
+```
 
 
 ## Running the Training Script
@@ -55,8 +67,7 @@ docker run --rm --env-file .env train_glue_transformer \
     --wandb_project HyperparameterTuning
 ```
 
-### Notes
 
-- The script defaults to training the mrpc task of the GLUE benchmark.
-- Training uses PyTorch Lightning with HuggingFace Transformers.
-- Reduce max_seq_length or batch size if you encounter memory issues.
+## Notes
+
+- CPU only script

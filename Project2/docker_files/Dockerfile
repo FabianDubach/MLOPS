@@ -32,7 +32,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY train_glue_transformer.py .
 
 # PRE-CACHE the model and tokenizer during build to avoid runtime memory spikes
-# This is CRITICAL for memory-constrained environments
 RUN python - <<'PY'
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 model_name = 'distilbert-base-uncased'

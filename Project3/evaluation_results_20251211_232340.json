@@ -1,0 +1,59 @@
+[
+  {
+    "prompt": "What is machine learning?",
+    "output": "<s> What is machine learning?\n\n> Machine Learning is the scientific discipline of building systems that can improve their performance at some task with experience.\n\n> In the general context of machine learning, a system should be able to learn from data to make decisions, predictions, or recommendations with minimal human assistance.\n\n> Machine learning is a technique of computer science that uses statistical techniques to give computer systems the ability to \"learn\" with data, without being explicitly programmed. (definition taken from Wikipedia)\n\n> There",
+    "reference": "Machine learning is AI that allows computers to learn from data without explicit programming.",
+    "metrics": {
+      "ROUGE-1": {
+        "score": 0.23157894736842102,
+        "success": false
+      },
+      "BLEU": {
+        "score": 0.035896057761679326,
+        "success": false
+      },
+      "Semantic Similarity": {
+        "score": 0.36898037387102944,
+        "success": false
+      }
+    }
+  },
+  {
+    "prompt": "Explain neural networks",
+    "output": "<s> Explain neural networks\n\n- They are one computational model of the mind, with neurons at one level, which could have many inputs.\n- They can work on data of any size, not just tiny data like in machine learning.\n- They can run on video, images etc. They don\u2019t need to know what they should be learning.\n- They can be trained so that when they see something for the first time, they decide whether it is right or not.\n- They can",
+    "reference": "Neural networks are interconnected layers of nodes that process information like human brains.",
+    "metrics": {
+      "ROUGE-1": {
+        "score": 0.12903225806451615,
+        "success": false
+      },
+      "BLEU": {
+        "score": 0.005855869759132124,
+        "success": false
+      },
+      "Semantic Similarity": {
+        "score": 0.084903549308253,
+        "success": false
+      }
+    }
+  },
+  {
+    "prompt": "What is deep learning?",
+    "output": "<s> What is deep learning? If you\u2019re like me and you do not have a master\u2019s of computer science degree, this phrase is probably a vague concept with a vague understanding of what the words mean collectively. While it may seem like a lot of jargon, one thing is certain. Deep learning algorithms are becoming commonplace in the workplace and, in the very near future, will be changing the way we view the world.\n\n## What is Deep Learning?\n\nLet\u2019s jump in head",
+    "reference": "Deep learning uses multi-layered neural networks for complex pattern recognition.",
+    "metrics": {
+      "ROUGE-1": {
+        "score": 0.041666666666666664,
+        "success": false
+      },
+      "BLEU": {
+        "score": 0.008370034695476355,
+        "success": false
+      },
+      "Semantic Similarity": {
+        "score": 0.0813874051872139,
+        "success": false
+      }
+    }
+  }
+]

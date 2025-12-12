@@ -1,0 +1,59 @@
+[
+  {
+    "prompt": "What is machine learning?",
+    "output": "<s> What is machine learning?\n\nMachine learning is simply the ability to learn from data without being explicitly programmed to do so. It is just a methodology to develop AI (artificial intelligence) techniques like clustering, pattern recognition, speech recognition and other tasks that would normally require human intelligence.\n\nBut machine learning has been in use for a long time, right?\n\nYes but it is only from 60s that we heard about Machine learning or used it in the technology business.\n\n",
+    "reference": "Machine learning is AI that allows computers to learn from data without explicit programming.",
+    "metrics": {
+      "ROUGE-1": {
+        "score": 0.23404255319148937,
+        "success": false
+      },
+      "BLEU": {
+        "score": 0.0529715946034933,
+        "success": false
+      },
+      "Semantic Similarity": {
+        "score": 0.3775839906563715,
+        "success": false
+      }
+    }
+  },
+  {
+    "prompt": "Explain neural networks",
+    "output": "<s> Explain neural networks\n\nComputers are good at math. But they\u2019re not very good at doing what humans do well, like recognizing handwriting or driving a car. The problem is that the only way to get a computer\u2019s brain to do a task is to write an algorithm, a list of instructions, each one requiring you either to spell out an individual action or to refer to a set of instructions previously written. What\u2019s worse, today\u2019s computers have trouble processing anything but simple mathematical",
+    "reference": "Neural networks are interconnected layers of nodes that process information like human brains.",
+    "metrics": {
+      "ROUGE-1": {
+        "score": 0.17821782178217824,
+        "success": false
+      },
+      "BLEU": {
+        "score": 0.006047893706182821,
+        "success": false
+      },
+      "Semantic Similarity": {
+        "score": 0.09865052499191729,
+        "success": false
+      }
+    }
+  },
+  {
+    "prompt": "What is deep learning?",
+    "output": "<s> What is deep learning? Deep learning is a sub-brain of machine learning, as its name suggests, learning at the deepest level. Machine learning teaches the machine, how to learn, while deep learning teaches the machine how to learn deep and gain more experience and knowledge. Deep learning machines are very powerful compared to any supercomputer of the time. Let\u2019s learn Deep Learning course online.\n\nDeep learning is one of the powerful technologies in modern times which is becoming the central figure for the future of technology",
+    "reference": "Deep learning uses multi-layered neural networks for complex pattern recognition.",
+    "metrics": {
+      "ROUGE-1": {
+        "score": 0.06,
+        "success": false
+      },
+      "BLEU": {
+        "score": 0.008714537418417588,
+        "success": false
+      },
+      "Semantic Similarity": {
+        "score": 0.1826186599789153,
+        "success": false
+      }
+    }
+  }
+]
